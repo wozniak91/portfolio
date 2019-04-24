@@ -1,17 +1,22 @@
 <template>
   <div>
+    <DotCursor/>
     <Header/>
     <nuxt class="wrapper" />
+    <Footer />
   </div>
 </template>
 
 <script>
   import Header from '~/components/Header.vue'
-
+  import Footer from '~/components/Footer.vue'
+  import DotCursor from '~/components/DotCursor.vue'
   export default{
 
     components: {
-      Header
+      Header,
+      Footer,
+      DotCursor
     }
 
   }
@@ -25,12 +30,17 @@ body {
   font-weight: 300;
   font-size: 1rem;
   color: black;
+  cursor: none;
 }
 *,
 *:before,
 *:after {
   box-sizing: border-box;
   margin: 0;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: geometricPrecision;
+  -webkit-tap-highlight-color: rgba(0,0,0,0);
 }
 
 a {
@@ -46,7 +56,7 @@ strong, b {
   font-weight: 400;
 }
 
-.button {
+.btn {
   border:none;
   color: black;
   background: white;
@@ -71,9 +81,9 @@ strong, b {
       outline: none;
   }
 
-  &-accent {
+  &--accent {
      color: white;
-     background: #8BC34A;
+     background: #2196F3;
   }
 }
 
@@ -85,6 +95,7 @@ strong, b {
 }
 .wrapper {
   margin-top: 4.4rem;
+  background: white;
 }
 .well {
   padding: 1rem;
@@ -119,9 +130,10 @@ strong, b {
   }
 }
 .section {
-  min-height: 60vh;
-  padding: 2rem 1rem;
-  border-bottom: 1px solid #eee;
+    min-height: 70vh;
+    padding-top: 4rem;
+    padding-bottom: 4rem;
+    border-bottom: 1px solid #eee;
 
   &-centered {
     display: flex;
@@ -130,16 +142,15 @@ strong, b {
     align-items: center;
   }
 
-  &-bg {
-
-    &__main {
+    &--hero {
       background-image: url(~assets/img/main.png);
     }
 
-    &__faded {
-      background: #fafafa;
+    &--dark {
+      background: black;
+      color: white;
     }
-  }
+  
 }
 
 .hero {
