@@ -1,10 +1,10 @@
 <template>
   <main v-scroll-spy="{offset: 50}">    
-        <section class="section text-centered section-centered section--hero">
-            <div class="hero">
-              <h1 class="heading-1">Rafał <strong>Woźniak</strong></h1>
-              <p class="hero-text">Lorem ipsum dolor sit amet consectetur adipisicing elit. Ratione nihil et incidunt blanditiis libero dolorum autem quo ducimus harum fugit, vitae ab debitis ad quibusdam tempora sequi adipisci voluptatum soluta?</p>
-              <a class="btn btn--accent">Moje realizacje</a>
+        <section class="section section--hero">
+            <div class="hero container">
+              <h1 class="hero__title">Rafał Woźniak</h1>
+              <p class="hero__text">Full Stack Developer</p>
+              <a class="btn btn--secondary">Contact</a>
               <a href="https://github.com/wozniak91" class="btn" rel="noopener" target="_blank">github</a>
             </div>
         </section>
@@ -22,7 +22,7 @@
 
           </div>
         </section>
-        <section class="section section--dark">
+        <section class="section">
           <div class="container">
 
           </div>

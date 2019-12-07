@@ -1,7 +1,7 @@
 <template>
-    <header class="header" :class="{'header-sticky' : stickyHeader}">
-       <div class="header-container container">
-        <logo :class="{'logo-sticky' : stickyHeader}" />
+    <header class="header" :class="{'header--sticky' : deltaY < 0}">
+       <div class="header__container container">
+        <logo :class="{'logo-sticky' : deltaY < 0}" />
         <navigation/>
        </div>
         
@@ -16,34 +16,19 @@
 	name: 'Header',
 	data() {
 		return {
-			stickyHeader: false,
 			menuActive: false,
 		}
+    },
+    props: {
+        deltaY: {
+            default: 0,
+            type: Number
+        }
     },
     components: {
         Logo,
         Navigation,
     },
-    created() {
-        if (process.browser) {
-            this.handleScroll();
-            window.addEventListener('scroll', this.handleScroll)
-        }
-	},
-	beforeUpdate () {
-        if (process.browser) { 
-            window.addEventListener('scroll', this.handleScroll)
-        }
-	},
-	methods: {
-		handleScroll () {
-			if (window.scrollY >= 50) {
-				this.stickyHeader = true
-			} else {
-				this.stickyHeader = false
-			}
-		},
-	},
 }
 </script>
 
@@ -54,20 +39,21 @@
     position: fixed;
     top: 0;
     left: 0;
+    z-index: 1;
     width: 100%;
     background: white;
-    height: 70px;
+    padding: 3.5rem 0;
     display: flex;
     flex-wrap: wrap;
     align-items: center;
     transition: all .3s cubic-bezier(0.39, 0.58, 0.57, 1);
 
-    &-sticky {
-        height: 50px;
+    &--sticky {
+        padding: 1rem 0;
         box-shadow: 1px 5px 20px rgba(0,0,0,.05);
     }
 
-    &-container {
+    &__container {
         display: flex;
         flex-wrap: wrap;
         align-items: center;

@@ -1,9 +1,11 @@
 <template>
-  <div>
+  <div class="App">
     <DotCursor/>
-    <Header/>
-    <nuxt class="wrapper" />
-    <Footer />
+    <Header :deltaY="positionY" />
+    <div class="AppWrapper" ref="AppWrapper">
+      <nuxt class="wrapper" />
+      <Footer />
+    </div>
   </div>
 </template>
 
@@ -13,10 +15,40 @@
   import DotCursor from '~/components/DotCursor.vue'
   export default{
 
+    mounted() {
+      this.scrollableContent()
+    },
+    data() {
+      return {
+        positionY: 0,
+        positionTop: true,
+        scrollHeight: 0,
+      }
+    },
     components: {
       Header,
       Footer,
       DotCursor
+    },
+    methods: {
+      scrollableContent() {
+
+        if (process.client) {
+          const { scrollHeight } = this.$refs.AppWrapper;
+          const { innerHeight } = window;
+          this.scrollHeight = scrollHeight-innerHeight;
+
+          document.addEventListener('wheel', (e) => {
+            const { deltaY } = e;
+            if(this.positionY - deltaY <= 0) {
+              const diff = scrollHeight-innerHeight+deltaY;
+              this.positionY -= deltaY;
+            } 
+          });
+
+        }
+
+      }
     }
 
   }
@@ -26,8 +58,8 @@
 <style lang="scss">
 
 body {
-  font-family: 'Roboto', sans-serif;
-  font-weight: 300;
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 400;
   font-size: 1rem;
   color: black;
   cursor: none;
@@ -41,6 +73,7 @@ body {
   -moz-osx-font-smoothing: grayscale;
   text-rendering: geometricPrecision;
   -webkit-tap-highlight-color: rgba(0,0,0,0);
+  cursor: none;
 }
 
 a {
@@ -52,6 +85,15 @@ strong, b {
   font-weight: 400;
 }
 
+
+// .App {
+//   overflow: hidden;
+//   height: 100vh;
+// }
+// .AppWrapper {
+//   position: relative;
+//   transition: transform .75s ease-in-out;
+// }
 .link {
   font-weight: 400;
 }
@@ -59,31 +101,50 @@ strong, b {
 .btn {
   border:none;
   color: black;
+  position: relative;
   background: white;
-  padding: .75rem 2rem;
-  font-size: .85rem;
+  border: 2px solid;
+  padding: 1.25rem 3.25rem;
+  font-size: .9rem;
   border-radius: .25rem;
-  display: inline-block;
   margin: .25rem;
+  display: inline-block;
   text-transform: uppercase;
-  font-weight: 400;
+  font-weight: 600;
   line-height: 1;
   transform: none;
   font-family: inherit;
-  box-shadow: 0 5px 10px rgba(0,0,0,0.1);
-  transition: color .15s ease-in-out,background-color .15s ease-in-out,box-shadow .15s ease-in-out, transform .15s ease-in-out;
+  transition: color .15s ease-in-out,background-color .15s ease-in-out, transform .15s ease-in-out;
+
+  &::before {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    box-shadow: 0 7px 25px rgba(0,0,0,0.25);
+    left: 0;
+    top: 0;
+    opacity: .8;
+    transition: opacity .15s ease-in-out;
+  }
 
   &:hover,
   &:active,
   &:focus {
-      box-shadow: 0 7px 20px rgba(0,0,0,0.15);
+      
       transform: translateY(-1px);
       outline: none;
+
+      &::before {
+        opacity: 1;
+      }
   }
 
-  &--accent {
+
+
+  &--secondary {
      color: white;
-     background: #2196F3;
+     background: black;
   }
 }
 
@@ -97,71 +158,70 @@ strong, b {
   margin-top: 4.4rem;
   background: white;
 }
-.well {
-  padding: 1rem;
-  background: #fafafa;
-
-  &-text {
-    text-align: center;
-    font-size: .9rem;
-    font-weight: 300;
-    line-height: 1;
-  }
-}
-.heading-1 {
-    font-size: 5rem;
-    letter-spacing: 2px;
-    font-weight: 100;
-    line-height: 1;
-    margin-bottom: 2rem;
-
-    &:nth-letter(3) {
-      font-weight: 300;
-    }
-}
 .text {
   font-size: 1rem;
   font-weight: 500;
   line-height: 1.6;
   margin-bottom: 1rem;
 
-  &-centered {
+  &--center {
     text-align: center;
   }
 }
 .section {
-    min-height: 70vh;
+    min-height: 100vh;
     padding-top: 4rem;
     padding-bottom: 4rem;
     border-bottom: 1px solid #eee;
 
-  &-centered {
+  &--center {
     display: flex;
     flex-wrap: wrap;
-    justify-content: center;
     align-items: center;
   }
 
     &--hero {
-      background-image: url(~assets/img/main.png);
-    }
-
-    &--dark {
-      background: black;
-      color: white;
+      background: url(~assets/img/main.svg) no-repeat 100%;
     }
   
 }
 
 .hero {
-  width: 100%;
-  max-width: 768px;
+  padding-top: 10rem;
+  padding-bottom: 7rem;
 
-  &-text {
-    font-size: 1rem;
+  &__title {
+    font-size: 4rem;
+    letter-spacing: 2px;
+    font-weight: 600;
+    line-height: 1;
+    margin-bottom: 1rem;
+  }
+
+  &__text {
+    font-size: 1.5rem;
     font-weight: 500;
     line-height: 1.6;
-    margin-bottom: 2rem;
+    margin-bottom: 1.5rem;
+
+    &::after {
+      content: "";
+      display: inline-block;
+      width: .8rem;
+      height: 2px;
+      background: black;
+      animation: line .75s infinite ease-in-out;
+    }
+  }
+
+}
+
+@keyframes line {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
   }
 }
 
