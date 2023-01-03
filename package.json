@@ -16,7 +16,7 @@
     "ant-design-vue": "^1.1.10",
     "cross-env": "^5.2.0",
     "gsap": "^3.0.1",
-    "nuxt": "^2.4.0",
+    "nuxt": "^2.15.8",
     "vue2-scrollspy": "^2.3.1"
   },
   "devDependencies": {
